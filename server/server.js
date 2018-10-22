@@ -1,24 +1,28 @@
+var express=require('express');
+var bodyParser=require('body-parser');
+
 var {mongoose}=require('./db/mongoose.js');
 var {todo}=require('./models/todos.js');
 var {user}=require('./models/user.js');
 
-// var newTodo= new Todo({
-//     text: 'Play'
-// });
+var app=express();
 
-// newTodo.save().then((doc)=>{
-//     console.log(doc);
-// },(e)=>{
-//     console.log(e);
-// });
+app.use(bodyParser.json());
 
+app.post('/todos',(req,res)=>{
+    console.log(req.body);
+    var newTodo=new todo({
+        text: req.body.text
+    });
 
+    newTodo.save().then((doc)=>{
+        res.send("saved"+doc);
+    },(err)=>{
+        res.status(400).send(err);
+    });
 
-var newUser= new user({
-    email:"bhawesh2020@example.com"
 });
-newUser.save().then((docs)=>{
-    console.log('User added',docs);
-},(err)=>{
-    console.log('Some error occured',err);
+
+app.listen(3000,()=>{
+    console.log('Started on port 3000');
 });
