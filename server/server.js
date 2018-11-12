@@ -95,6 +95,20 @@ app.patch('/todos/:id',(req,res)=>{
 
 });
 
+app.post('/users',(req,res)=>{
+    var body=_.pick(req.body,['email','password']);
+    var newUser=new user(body);
+
+    newUser.save().then(()=>{
+        return newUser.generateAuthToken();   
+    }).then((token)=>{
+        res.header('x-auth',token).send(newUser);
+    })
+    .catch((e)=>{
+        res.status(400).send(e);
+    });
+});
+
 module.exports={app};
 
 app.listen(port,()=>{
