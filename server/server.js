@@ -9,6 +9,7 @@ const {ObjectID}=require('mongodb');
 var {mongoose}=require('./db/mongoose.js');
 var {todo}=require('./models/todos.js');
 var {user}=require('./models/user.js');
+var {authenticate}=require('./middleware/authenticate');
 
 var app=express();
 var port=process.env.PORT;
@@ -107,6 +108,12 @@ app.post('/users',(req,res)=>{
     .catch((e)=>{
         res.status(400).send(e);
     });
+});
+
+
+
+app.get('/users/me',authenticate,(req,res)=>{
+    res.send(req.user);
 });
 
 module.exports={app};
