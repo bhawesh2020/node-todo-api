@@ -45,7 +45,7 @@ UserSchema.methods.generateAuthToken=function (){
     var token=jwt.sign({
         _id:user._id.toHexString(),
         access
-    },'qwerty12345').toString(); 
+    },process.env.JWT_SECRET).toString(); 
     user.tokens=user.tokens.concat([{access,token}]);
     return user.save().then(()=>{
         return token;
@@ -67,7 +67,7 @@ UserSchema.statics.findByToken=function(token){
     var User=this;
     var decoded;
     try{
-        decoded=jwt.verify(token,'qwerty12345');
+        decoded=jwt.verify(token,process.env.JWT_SECRET);
     }catch(e){
         return Promise.reject();
     }

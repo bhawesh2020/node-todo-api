@@ -17,7 +17,7 @@ const users=[{
             token:jwt.sign({
                 _id:u1id,
                 access:'auth'
-            },'qwerty12345').toString()
+            },process.env.JWT_SECRET).toString()
         }
     ]
 },{
@@ -30,7 +30,7 @@ const users=[{
             token:jwt.sign({
                 _id:u2id,
                 access:'auth'
-            },'qwerty12345').toString()
+            },process.env.JWT_SECRET).toString()
         }
     ]
 }];
